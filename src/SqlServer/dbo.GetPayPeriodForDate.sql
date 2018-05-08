@@ -30,18 +30,9 @@
 go
 create function [dbo].[GetPayPeriodForDate] (@date date) returns table
 as return (
-	select datepart(year, @date) as [Year], c.[PayPeriodMonth] as [Month]
-		, datefromparts(datepart(year, @date), c.[StartMonth], c.[StartDay]) as [StartDate]
-		, datefromparts(datepart(year, @date), c.[EndMonth], c.[EndDay]) as [EndDate]
-		, c.[WorkDays]
-		, c.[WorkDays] * 8 as [WorkHours]
-		from [dbo].[PayPeriodCalendar] c
-		inner join [dbo].[PayPeriodSequence] s
-		on c.[PayPeriodCalendarId] = s.[PayPeriodCalendarId]
-		and s.[IndexValue] = (((datepart(year, @date) - 1994) % 28) + 1)
-		where @date between 
-			datefromparts(datepart(year, @date), c.[StartMonth], c.[StartDay]) and
-			datefromparts(datepart(year, @date), c.[EndMonth], c.[EndDay])
+	select [Year], [Month], [StartDate], [EndDate], [WorkDays], [WorkHours]
+	from [dbo].[GetPayPeriods](datepart(year, @date), null)
+	where @date between [StartDate] and [EndDate]
 );
 go
 
