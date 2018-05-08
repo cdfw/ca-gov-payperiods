@@ -1,0 +1,67 @@
+﻿h1 {
+    text-align: center;
+}
+
+.pp {
+    display: block;
+    margin: 0 1em;
+}
+
+.pp h2 { text-align: center; }
+
+.error { color: red; }
+
+.pp-nav {
+    display: flex;
+    flex-basis: 50%;
+    justify-content: center;
+}
+
+.pp-months {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.pp-month {
+    /* Pay Period Month*/
+    display: inline-flex;
+    flex-basis: 25%;
+}
+
+    .pp-month table {
+        margin: 1em;
+        border-collapse: collapse;
+    }
+
+.pp-month-head {
+    /*flex-basis: 100%;*/
+}
+
+.pp-day {
+    /* Calendar Day */
+    text-align: center;
+    border: thin solid gray;
+    color: gray;
+}
+
+.pp-in {
+    /* Day In the Pay Period's Calendar Month */
+    background-color: white;
+}
+
+.pp-out {
+    /* Day Outside the Pay Period's Calendar Month */
+    background-color: lightgray;
+}
+
+.pp-start, .pp-end {
+    /* Start or End day of the Pay Period */
+    font-weight: bold;
+}
+
+.pp-month-day {
+    /* Day inside the the Pay Period */
+    color: black;
+}
