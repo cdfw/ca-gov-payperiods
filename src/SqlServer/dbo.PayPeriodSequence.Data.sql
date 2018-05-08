@@ -6,7 +6,7 @@
 
 	MIT License
 
-	Copyright (c) 2018 eric-miller-cdfw
+	Copyright (c) 2018 State of California, Department of Fish and Wildlife
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
