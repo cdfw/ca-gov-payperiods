@@ -10,4 +10,4 @@ This project contains various implementations of code with respect to the define
 * [TypeScript/JavaScript](src/TypeScript)
 )
 ## Live Examples
-* [GitHub IO page](https://calwild.github.io/ca-gov-payperiods/)
+* [GitHub IO page](https://cdfw.github.io/ca-gov-payperiods/)
