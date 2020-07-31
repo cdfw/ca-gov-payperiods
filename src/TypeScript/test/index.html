@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pay Period Service Tests</title>
+        <script src="../built/pay-period-service.js"></script>
+        <script src="../built/pay-period-service-ical.js"></script>
+    </head>
+    <body>
+        <h1>Pay Period Service Tests</h1>
+        <div id="target" style="white-space:pre-wrap;"></div>
+        <script type="text/javascript">
+            addEventListener("load", 
+                function(){
+                    var target = document.getElementById("target");
+                    
+                    function write(s) {
+                        target.appendChild(document.createTextNode(s));
+                    }
+
+                    write("Beginning tests...\n");
+
+                    write("TEST: Pay Period for Date\n");
+                    const now = new Date();
+                    write(`now = ${now}\n`);
+                    const pp = PayPeriodService.GetPayPeriod(now);
+                    write(`pp = ${JSON.stringify(pp)}\n`);
+                    write("DONE!\n\n");
+
+                    write("TEST: iCalendar\n");
+                    const pps = PayPeriodService.GetPayPeriods(now.getFullYear());
+                    write (`pps: ${JSON.stringify(pps)}\n`);
+                    const ical = PayPeriodService.toEventCalendar(pps, `Pay Periods ${now.getFullYear()}`);
+                    write (`ical:\n${ical}`);
+                    write ("DONE!\n\n");
+                    
+                    write("Finished.\n");
+                }
+            );
+        </script>
+    </body>
+</html>
