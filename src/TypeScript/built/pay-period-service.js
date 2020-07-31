@@ -28,72 +28,72 @@ SOFTWARE.
  * The source of the pay period pattern sequence and table
  * are the State Administrative Manual sections 8500.
  *
- * @copyright California Department of Fish and Wildlife 2017, 2018
+ * @copyright California Department of Fish and Wildlife 2017, 2018, 2020
  * @author Eric G. Miller
- * @version 1.2
+ * @version 1.3
  */
 var PayPeriodService;
 (function (PayPeriodService) {
     /**
      * The first year of the pattern
      */
-    var PATTERN_SEED_YEAR = 1994;
+    const PATTERN_SEED_YEAR = 1994;
     /**
      * The first pattern number sequence
      */
-    var PATTERN_NUMBER_MIN = 1;
+    const PATTERN_NUMBER_MIN = 1;
     /**
      * The last pattern number sequence
      */
-    var PATTERN_NUMBER_MAX = 14;
+    const PATTERN_NUMBER_MAX = 14;
     /**
      * The minimum month number.
      */
-    var MONTH_MIN = 1;
+    const MONTH_MIN = 1;
     /**
      * The maximum month number.
      */
-    var MONTH_MAX = 12;
+    const MONTH_MAX = 12;
     /**
      * The maximun year supported.
      */
-    var YEAR_MAX = 2299;
+    const YEAR_MAX = 2299;
     /**
      * Pattern table column sequence number
      */
-    var COL_SEQ = 0;
+    const COL_SEQ = 0;
     /**
      * Pattern table column month number
      */
-    var COL_MONTH = 1;
+    const COL_MONTH = 1;
     /**
      * Pattern table column start month
      */
-    var COL_START_MONTH = 2;
+    const COL_START_MONTH = 2;
     /**
      * Pattern table column start day
      */
-    var COL_START_DAY = 3;
+    const COL_START_DAY = 3;
     /**
      * Pattern table column end month
      */
-    var COL_END_MONTH = 4;
+    const COL_END_MONTH = 4;
     /**
      * Pattern table column end day
      */
-    var COL_END_DAY = 5;
+    const COL_END_DAY = 5;
     /**
      * Pattern table column work days
      */
-    var COL_WORK_DAYS = 6;
+    const COL_WORK_DAYS = 6;
     /**
      * The pattern sequence
      */
-    var PATTERN_SEQUENCE = [7, 1, 9, 4, 5, 6, 14, 2, 3, 4, 12, 7, 1, 2, 10, 5, 6, 7, 8, 3, 4, 5, 13, 1, 2, 3, 11, 6];
+    const PATTERN_SEQUENCE = [7, 1, 9, 4, 5, 6, 14, 2, 3, 4, 12, 7, 1, 2, 10, 5, 6, 7, 8, 3, 4, 5, 13, 1, 2, 3, 11, 6];
     /**
      * The pattern table
      */
-    var PATTERNS = [
+    const PATTERNS = [
         [1, 1, 1, 1, 1, 31, 22],
         [1, 2, 2, 1, 3, 1, 21],
         [1, 3, 3, 2, 3, 31, 22],
@@ -295,8 +295,8 @@ var PayPeriodService;
      */
     function CreatePayPeriod(year, month, startMonth, startDay, endMonth, endDay, workDays) {
         return {
-            startDate: new Date(year, startMonth - 1, startDay),
-            endDate: new Date(year, endMonth - 1, endDay),
+            startDate: new Date(Date.UTC(year, startMonth - 1, startDay)),
+            endDate: new Date(Date.UTC(year, endMonth - 1, endDay)),
             year: year,
             month: month,
             workDays: workDays,
@@ -342,8 +342,12 @@ var PayPeriodService;
         });
     }
     PayPeriodService.GetPayPeriods = GetPayPeriods;
+    function isBetween(date, start, end) {
+        const d2 = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+        return start <= d2 && d2 <= end;
+    }
     /**
-     * Get the pay period for a date.
+     * Get the pay period for a date. The time of day is ignored.
      *
      * @param {{Date}} date - The date
      */
@@ -355,20 +359,20 @@ var PayPeriodService;
         var ps = GetPatterns(year);
         // First try the same month as the date's month...
         var result = CreatePayPeriod(year, ps[month][COL_MONTH], ps[month][COL_START_MONTH], ps[month][COL_START_DAY], ps[month][COL_END_MONTH], ps[month][COL_END_DAY], ps[month][COL_WORK_DAYS]);
-        if (date >= result.startDate && date <= result.endDate) {
+        if (isBetween(date, result.startDate, result.endDate)) {
             return result;
         }
         // Then try the month before...
         if (month > 0) {
             result = CreatePayPeriod(year, ps[month - 1][COL_MONTH], ps[month - 1][COL_START_MONTH], ps[month - 1][COL_START_DAY], ps[month - 1][COL_END_MONTH], ps[month - 1][COL_END_DAY], ps[month - 1][COL_WORK_DAYS]);
-            if (date >= result.startDate && date <= result.endDate) {
+            if (isBetween(date, result.startDate, result.endDate)) {
                 return result;
             }
         }
         // Then try the month after...
         if (month < 12) {
             result = CreatePayPeriod(year, ps[month + 1][COL_MONTH], ps[month + 1][COL_START_MONTH], ps[month + 1][COL_START_DAY], ps[month + 1][COL_END_MONTH], ps[month + 1][COL_END_DAY], ps[month + 1][COL_WORK_DAYS]);
-            if (date >= result.startDate && date <= result.endDate) {
+            if (isBetween(date, result.startDate, result.endDate)) {
                 return result;
             }
         }

@@ -29,9 +29,9 @@ SOFTWARE.
  * The source of the pay period pattern sequence and table
  * are the State Administrative Manual sections 8500.
  *
- * @copyright California Department of Fish and Wildlife 2017, 2018
+ * @copyright California Department of Fish and Wildlife 2017, 2018, 2020
  * @author Eric G. Miller
- * @version 1.2
+ * @version 1.3
  */
 namespace PayPeriodService {
 
@@ -333,8 +333,8 @@ namespace PayPeriodService {
 		startMonth: number, startDay: number,
 		endMonth: number, endDay: number, workDays: number): PayPeriod {
 		return {
-			startDate: new Date(year, startMonth - 1, startDay),
-			endDate: new Date(year, endMonth - 1, endDay),
+			startDate: new Date(Date.UTC(year, startMonth - 1, startDay)),
+			endDate: new Date(Date.UTC(year, endMonth - 1, endDay)),
 			year: year,
 			month: month,
 			workDays: workDays,
@@ -387,8 +387,13 @@ namespace PayPeriodService {
 		
 	}
 
+	function isBetween(date: Date, start: Date, end: Date) : boolean {
+		const d2 = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+		return start <= d2 && d2 <= end;
+	}
+
 	/**
-	 * Get the pay period for a date.
+	 * Get the pay period for a date. The time of day is ignored.
 	 * 
 	 * @param {{Date}} date - The date
 	 */
@@ -403,7 +408,7 @@ namespace PayPeriodService {
 			ps[month][COL_START_MONTH], ps[month][COL_START_DAY],
 			ps[month][COL_END_MONTH], ps[month][COL_END_DAY],
 			ps[month][COL_WORK_DAYS]);
-		if (date >= result.startDate && date <= result.endDate) {
+		if (isBetween(date, result.startDate, result.endDate)) {
 			return result;
 		}
 		// Then try the month before...
@@ -412,7 +417,7 @@ namespace PayPeriodService {
 				ps[month - 1][COL_START_MONTH], ps[month - 1][COL_START_DAY],
 				ps[month - 1][COL_END_MONTH], ps[month - 1][COL_END_DAY],
 				ps[month - 1][COL_WORK_DAYS]);
-			if (date >= result.startDate && date <= result.endDate) {
+			if (isBetween(date, result.startDate, result.endDate)) {
 				return result;
 			}            
 		}
@@ -422,7 +427,7 @@ namespace PayPeriodService {
 				ps[month + 1][COL_START_MONTH], ps[month + 1][COL_START_DAY],
 				ps[month + 1][COL_END_MONTH], ps[month + 1][COL_END_DAY],
 				ps[month + 1][COL_WORK_DAYS]);
-			if (date >= result.startDate && date <= result.endDate) {
+			if (isBetween(date, result.startDate, result.endDate)) {
 				return result;
 			}            
 		}
