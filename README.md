@@ -8,6 +8,6 @@ This project contains various implementations of code with respect to the define
 ## Implementations
 * [SQL Server](src/SqlServer)
 * [TypeScript/JavaScript](src/TypeScript)
-)
+
 ## Live Examples
 * [GitHub IO page](https://cdfw.github.io/ca-gov-payperiods/)
