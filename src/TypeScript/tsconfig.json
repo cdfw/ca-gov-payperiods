@@ -1,10 +1,10 @@
 {
 	"compilerOptions": {
-		"outDir": "./built",
-		"allowJs": true,
-		"target": "es5"
+		"noImplicitAny": true,
+		"target": "ES2015",
+		"outDir": "built",
 	},
-	"include": [
-		"./src/**/*"
-	]
+	"files": [
+		"src/pay-period-service.ts"
+	],
 }

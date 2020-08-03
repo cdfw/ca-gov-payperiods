@@ -9,7 +9,7 @@ var PayPeriodNavigationLink = {
         let text = vnode.attrs.text;
         if (year && text)
             return m(".pp-nav",
-                m("a", { href: "/" + year, oncreate: m.route.link, onupdate: m.route.link }, text)
+                m(m.route.Link, { href: "/" + year }, text)
             );
         else
             return m(".pp-nav", "");
@@ -27,9 +27,9 @@ var PayPeriodCalendar = {
         let prevYear = year > 1994 ? year - 1 : null;
         let nextYear = year < 2299 ? year + 1 : null;
         console.debug("PayPeriodCalendar: " + JSON.stringify({ prevYear: prevYear, year: year, nextYear: nextYear }));
-        let payPeriods = PayPeriodService.GetPayPeriods(year);
+        let payPeriods = PayPeriodService.getPayPeriods(year);
         return m(".pp",
-            m("h2", year),
+            m("h2", [year, m("br"), m(PayPeriodExport, { year: year, payPeriods: payPeriods })]),
             m(".pp-nav",
                 m(PayPeriodNavigationLink, { year: prevYear, text: prevYear }),
                 m(PayPeriodNavigationLink, { year: nextYear, text: nextYear })
@@ -125,3 +125,35 @@ var PayPeriodDay = {
         return m("td", { "class": css }, day);
     }
 }
+
+var PayPeriodExport = {
+    view: function (vnode) {
+        const year = vnode.attrs.year;
+        const payPeriods = vnode.attrs.payPeriods;
+        if (year && Array.isArray(payPeriods)) {
+            return m(".pp-export",
+                m("button[type=button][title=Export Calendar in iCalendar format]",
+                    {
+                        onclick: function () {
+                            const ics = PayPeriodService.ical(payPeriods, `Pay Periods ${year}`);
+                            const a = document.createElement("a");
+                            a.setAttribute("href", "data:text/calendar;charset=utf-8," + encodeURIComponent(ics));
+                            a.setAttribute("download", `pp${year}.ics`);
+                            a.setAttribute("style", "display:none");
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);    
+                        }
+                    },
+                    "Export"
+                )
+            );
+        }
+    }
+}
+
+var app = document.getElementById("app");
+var year = (new Date()).getFullYear();
+m.route(app, "/" + year.toString(), {
+    "/:year": PayPeriodCalendar
+})

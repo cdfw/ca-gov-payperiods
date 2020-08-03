@@ -64,4 +64,9 @@
 .pp-month-day {
     /* Day inside the the Pay Period */
     color: black;
+    background-color: gold;
+}
+
+.pp-export {
+    /* Export button */
 }

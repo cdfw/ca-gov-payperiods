@@ -1,0 +1,22 @@
+{
+  "name": "ca-gov-payperiods",
+  "version": "2.0.0",
+  "description": "An API for California State Government Pay Periods.",
+  "main": "./src/index.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "california",
+    "government",
+    "payperiod"
+  ],
+  "author": "Eric G. Miller",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}
