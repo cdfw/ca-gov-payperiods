@@ -5,6 +5,6 @@
 		"outDir": "built",
 	},
 	"files": [
-		"src/index.ts"
+		"src/pay-period-service.ts"
 	],
 }
