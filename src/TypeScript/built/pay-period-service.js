@@ -23,9 +23,9 @@ SOFTWARE.
 */
 /**
  * California State Government Pay Period API.
- * @copyright Copyright (c) 2018-2020 California Department of Fish and Wildlife
+ * @copyright Copyright (c) 2018-2021 California Department of Fish and Wildlife
  * @author Eric G. Miller
- * @version 2.0.0
+ * @version 2.0.1
  */
 var PayPeriodService;
 (function (PayPeriodService) {
@@ -277,3 +277,4 @@ var PayPeriodService;
         return PATTERNS.slice(idx, idx + 12);
     }
 })(PayPeriodService || (PayPeriodService = {}));
+//# sourceMappingURL=pay-period-service.js.map

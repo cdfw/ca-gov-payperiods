@@ -3,6 +3,12 @@
 		"noImplicitAny": true,
 		"target": "ES2015",
 		"outDir": "built",
+		"sourceMap": true,
+		// Generate d.ts files
+		"declaration": true,
+		// This compiler run should
+		// only output d.ts files
+		"emitDeclarationOnly": true
 	},
 	"files": [
 		"src/pay-period-service.ts"

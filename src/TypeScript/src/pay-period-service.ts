@@ -1,7 +1,7 @@
 /*!
 MIT License
 
-Copyright (c) 2018-2020 State of California, Department of Fish and Wildlife
+Copyright (c) 2018-2021 State of California, Department of Fish and Wildlife
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,9 @@ SOFTWARE.
 
 /**
  * California State Government Pay Period API.
- * @copyright Copyright (c) 2018-2020 California Department of Fish and Wildlife
+ * @copyright Copyright (c) 2018-2021 California Department of Fish and Wildlife
  * @author Eric G. Miller
- * @version 2.0.0
+ * @version 2.0.1
  */
 namespace PayPeriodService {
     /**
