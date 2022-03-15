@@ -341,3 +341,4 @@ healthchecksdb
 
 # built output files
 dist/
+built/
