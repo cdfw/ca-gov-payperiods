@@ -33,9 +33,16 @@ import { contains, padLeft, toISODate } from './pay-period-utils';
 
 /**
  * Get the pay period for a date.
- * 
  * @param {string | Date} date - The date as an ISO 8601 date string (ex. 2022-03-15) or a Date object.
- * @returns {PayPeriod} A pay period object.
+ * @returns {PayPeriod} - A pay period object.
+ * @example
+ * ```javascript
+ * // Get a pay period with a string date.
+ * const pp = getPayPeriod("2020-10-31");
+ * // Get a pay period with a date object.
+ * const dt = new Date(2020, 9, 31); // Month number is an index 0..11
+ * const pp = getPayPeriod(dt);
+ * ```
  */
 export function getPayPeriod(date: string | Date): PayPeriod {
     let sdate: string;
@@ -43,7 +50,7 @@ export function getPayPeriod(date: string | Date): PayPeriod {
     let _month: number;
     if (typeof date === 'string') { 
         sdate = <string>date; 
-        var [year, month, _] = sdate.split("-", 3);
+        const [year, month, ] = sdate.split("-", 3);
         _year = parseInt(year, 10);
         _month = parseInt(month, 10);
     }
@@ -59,19 +66,20 @@ export function getPayPeriod(date: string | Date): PayPeriod {
     validateMonth(_month);
     const ps = getPatterns(_year);
     // First try the same month as the date's month...
-    let result = createPayPeriod(_year, ps[_month]);
+    // The index is one less than the value...
+    let result = createPayPeriod(_year, ps[_month - 1]);
     if (contains(result, sdate)){
         return result;
     }
     // Then try the month before...
     if (_month > 1) {
-        result = createPayPeriod(_year, ps[_month - 1]);
+        result = createPayPeriod(_year, ps[_month - 2]);
         if (contains(result, sdate))
             return result;
     }
     // Then try the month after...
-    if (_month < 12) {
-        result = createPayPeriod(_year, ps[_month + 1]);
+    if (_month < 13) {
+        result = createPayPeriod(_year, ps[_month]);
         if (contains(result, sdate))
             return result;
     }
@@ -80,6 +88,10 @@ export function getPayPeriod(date: string | Date): PayPeriod {
 
 /**
  * Get the pay period for a year and month.
+ * @example
+ * ```javascript
+ * const pp = getPayPeriodForMonth(2022, 10); // October 2022
+ * ```
  * @param {number} year - The pay period calendar year.
  * @param {number} month - The pay period month (1-12).
  * @returns {PayPeriod} A pay period object.
@@ -93,7 +105,13 @@ export function getPayPeriodForMonth(year: number, month: number): PayPeriod {
 
 /**
  * Get pay periods for a year. Optionally, only return a single month.
- * 
+ * @example
+ * ```javascript
+ * // Get whole year of pay periods.
+ * const pps = getPayPeriods(2022);
+ * // Get a single month.
+ * const pp = getPayPeriods(2022,10)[0]; // Always a single item array.
+ * ```
  * @param {number} year - The calendar year.
  * @param {number} [month] - The month (1..12).
  * @returns {Array<PayPeriod>} The pay periods.
@@ -142,11 +160,11 @@ const PATTERN_SEED_YEAR = YEAR_MIN;
 /**
  * The first pattern number sequence
  */
-const PATTERN_NUMBER_MIN = 1;
+//const PATTERN_NUMBER_MIN = 1;
 /**
  * The last pattern number sequence
  */
-const PATTERN_NUMBER_MAX = 14;
+//const PATTERN_NUMBER_MAX = 14;
 /**
  * The minimum month number.
  */
@@ -162,7 +180,7 @@ export const YEAR_MAX = 2299;
 /**
  * Pattern table column sequence number
  */
-const COL_SEQ = 0;
+//const COL_SEQ = 0;
 /**
  * Pattern table column month number
  */
@@ -374,7 +392,7 @@ const COL_START_MONTH = 2;
  * @returns {number} The pattern sequence starting index for the year.
  */
 function getPatternSequence(year: number): number {
-    var idx = (year - PATTERN_SEED_YEAR) % PATTERN_SEQUENCE.length;
+    const idx = (year - PATTERN_SEED_YEAR) % PATTERN_SEQUENCE.length;
     return PATTERN_SEQUENCE[idx];
 }
  
@@ -385,8 +403,8 @@ function getPatternSequence(year: number): number {
  * @returns {Array<Uint8Array>} The pay period calendar patterns for the year.
  */
 function getPatterns(year: number): Array<Uint8Array> {
-    var seq = getPatternSequence(year);
-    var idx = (seq - 1) * 12;
+    const seq = getPatternSequence(year);
+    const idx = (seq - 1) * 12;
     return PATTERNS.slice(idx, idx + 12);
 }
 
@@ -412,7 +430,7 @@ function getPattern(year: number, month: number): Uint8Array {
  */
 function createPayPeriod (year: number, p: Uint8Array) : PayPeriod {
     const sYear = year.toString();
-    return {
+    const result = {
         year: year,
         month: p[COL_MONTH],
         firstDay: `${sYear}-${padLeft(p[COL_START_MONTH], 2, "0")}-${padLeft(p[COL_START_DAY], 2, "0")}`,
@@ -420,4 +438,6 @@ function createPayPeriod (year: number, p: Uint8Array) : PayPeriod {
         workDays: p[COL_WORK_DAYS],
         workHours: p[COL_WORK_DAYS] * 8,
     };
+    //console.debug("createPayPeriod result", result);
+    return result;
 }

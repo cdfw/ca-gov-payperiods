@@ -34,19 +34,45 @@ import { padLeft } from "./pay-period-utils";
 /**
  * Given an array of pay periods, return a string formatted as
  * an iCalendar message with the pay periods as events.
- * 
+ * @example
+ * ```javascript
+ * // Get the pay periods for a year.
+ * const payPeriods = getPayPeriods(2020);
+ * // Get the iCalendar representation of that year.
+ * const msg = ical(payPeriods, "2020 Pay Periods");
+ * ```
+ * ```
+ * BEGIN:VCALENDAR
+ * VERSION:2.0
+ * PRODID:CA-GOV-PAYPERIOD
+ * X-WR-CALNAME:2020 Pay Periods
+ * BEGIN:VEVENT
+ * UID:CA-GOV-PAYPERIOD-2020-01
+ * DTSTAMP:20200731T190554Z
+ * DTSTART:20200101
+ * DTEND:20200131
+ * SUMMARY:January 2020
+ * DESCRIPTION:January 2020 Pay Period
+ *  \nFirst Day: 2020-01-01
+ *  \nLast Day: 2020-01-30
+ *  \nWork Days: 22
+ *  \nWork Hours: 176
+ * END:VEVENT
+ * ...
+ * END:VCALENDAR
+ * ```
  * @param {Array<PayPeriod>} payPeriods - One or more payperiods to write as events in the calendar.
  * @param {string} [name] - (default: "Pay Periods") Optional name for the calendar.
  * @returns {string} The pay periods formatted into an iCalendar message.
  */
 export function ical(payPeriods: PayPeriod[], name?: string) : string {
-    var calName = name || "Pay Periods";
-    var result = "";
+    const calName = name || "Pay Periods";
+    let result = "";
     result += "BEGIN:VCALENDAR\n";
     result += "VERSION:2.0\n";
     result += "PRODID:CA-GOV-PAYPERIOD\n";
     result += `X-WR-CALNAME:${calName}\n`;
-    for(var pp of payPeriods){
+    for(const pp of payPeriods){
         result += toVEvent(pp);
     }
     result += "END:VCALENDAR\n";
@@ -74,7 +100,7 @@ function toVEvent(pp: PayPeriod) : string
         + padLeft((endDate.getUTCMonth() + 1), 2, "0")
         + padLeft(endDate.getUTCDate(), 2, "0")    
         ;
-    var result = "";
+    let result = "";
     result += "BEGIN:VEVENT\n";
     result += `UID:CA-GOV-PAYPERIOD-${sYear}-${sMonth}\n`;
     result += `DTSTAMP:${dtStamp}\n`;
