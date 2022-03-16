@@ -41,7 +41,7 @@ import { padLeft } from "./pay-period-utils";
  * // Get the iCalendar representation of that year.
  * const msg = ical(payPeriods, "2020 Pay Periods");
  * ```
- * ```
+ * ```text
  * BEGIN:VCALENDAR
  * VERSION:2.0
  * PRODID:CA-GOV-PAYPERIOD

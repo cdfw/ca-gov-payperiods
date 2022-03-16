@@ -28,8 +28,8 @@ SOFTWARE.
  * @author Eric G. Miller
  * @version 3.0.0
  */
-import { PayPeriod } from './pay-period';
-import { contains, padLeft, toISODate } from './pay-period-utils';
+import { PayPeriod, PayPeriodImpl } from './pay-period';
+import { contains, toISODate } from './pay-period-utils';
 
 /**
  * Get the pay period for a date.
@@ -67,19 +67,19 @@ export function getPayPeriod(date: string | Date): PayPeriod {
     const ps = getPatterns(_year);
     // First try the same month as the date's month...
     // The index is one less than the value...
-    let result = createPayPeriod(_year, ps[_month - 1]);
+    let result = new PayPeriodImpl(_year, ps[_month - 1]);
     if (contains(result, sdate)){
         return result;
     }
     // Then try the month before...
     if (_month > 1) {
-        result = createPayPeriod(_year, ps[_month - 2]);
+        result = new PayPeriodImpl(_year, ps[_month - 2]);
         if (contains(result, sdate))
             return result;
     }
     // Then try the month after...
     if (_month < 13) {
-        result = createPayPeriod(_year, ps[_month]);
+        result = new PayPeriodImpl(_year, ps[_month]);
         if (contains(result, sdate))
             return result;
     }
@@ -100,7 +100,7 @@ export function getPayPeriodForMonth(year: number, month: number): PayPeriod {
     validateYear(year);
     validateMonth(month);
     const pat = getPattern(year, month);
-    return createPayPeriod(year, pat);
+    return new PayPeriodImpl(year, pat);
 }
 
 /**
@@ -118,15 +118,12 @@ export function getPayPeriodForMonth(year: number, month: number): PayPeriod {
  */
 export function getPayPeriods(year: number, month?: number): Array<PayPeriod> {
     validateYear(year);
-    let monthStart = MONTH_MIN;
-    let monthEnd = MONTH_MAX;
     if (month) {
         validateMonth(month);
-        monthStart = monthEnd = month;
+        return [new PayPeriodImpl(year, getPattern(year, month))];
     }
     return getPatterns(year)
-        .slice(monthStart - 1, monthEnd)
-        .map((p) => createPayPeriod(year, p));
+        .map((p) => new PayPeriodImpl(year, p));
 }
 
 /**
@@ -180,31 +177,31 @@ export const YEAR_MAX = 2299;
 /**
  * Pattern table column sequence number
  */
-//const COL_SEQ = 0;
+export const COL_SEQ = 0;
 /**
  * Pattern table column month number
  */
-const COL_MONTH = 1;
+export const COL_MONTH = 1;
 /**
  * Pattern table column start month
  */
-const COL_START_MONTH = 2;
+export const COL_START_MONTH = 2;
 /**
  * Pattern table column start day
  */
- const COL_START_DAY = 3;
+export const COL_START_DAY = 3;
 /**
  * Pattern table column end month
  */
- const COL_END_MONTH = 4;
+export const COL_END_MONTH = 4;
 /**
  * Pattern table column end day
  */
- const COL_END_DAY = 5;
+export const COL_END_DAY = 5;
 /**
  * Pattern table column work days
  */
- const COL_WORK_DAYS = 6;
+export const COL_WORK_DAYS = 6;
  
 /**
  * The pattern sequence
@@ -419,25 +416,4 @@ function getPattern(year: number, month: number): Uint8Array {
     const idx = ((seq - 1) * 12) + month - 1;
     const pat = PATTERNS[idx];
     return pat;
-}
-
-/**
- * Create a PayPeriod object
- *
- * @param {number} year - The pay period year.
- * @param {Uint8Array} p - The pay period pattern array.
- * @returns {PayPeriod} The pay period object.
- */
-function createPayPeriod (year: number, p: Uint8Array) : PayPeriod {
-    const sYear = year.toString();
-    const result = {
-        year: year,
-        month: p[COL_MONTH],
-        firstDay: `${sYear}-${padLeft(p[COL_START_MONTH], 2, "0")}-${padLeft(p[COL_START_DAY], 2, "0")}`,
-        lastDay: `${sYear}-${padLeft(p[COL_END_MONTH], 2, "0")}-${padLeft(p[COL_END_DAY], 2, "0")}`,
-        workDays: p[COL_WORK_DAYS],
-        workHours: p[COL_WORK_DAYS] * 8,
-    };
-    //console.debug("createPayPeriod result", result);
-    return result;
 }
