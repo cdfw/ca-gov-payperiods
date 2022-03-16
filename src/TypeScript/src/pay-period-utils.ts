@@ -22,13 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-/**
- * California State Government Pay Period API.
- * @copyright Copyright (c) 2018-2022 California Department of Fish and Wildlife
- * @author Eric G. Miller
- * @version 3.0.0
- */
-
 import { PayPeriod } from "./pay-period";
 
 /**

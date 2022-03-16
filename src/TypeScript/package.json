@@ -24,13 +24,16 @@
     "ts-node": "ts-node",
     "docs": "typedoc --entryPoints src/main.ts --name \"California State Government Pay Period API\"",
     "build": "tsc -p tsconfig.json",
-    "build-all": "npm run clean && npm run build && npm run esbuild-node && npm run esbuild-browser",
-    "esbuild-browser": "esbuild src/browser.ts --bundle --minify --sourcemap=external --outfile=dist/esbuild/browser.js",
-    "esbuild-browser:dev": "esbuild src/browser.ts --bundle --outfile=dist/esbuild/browser.js",
-    "esbuild-browser:watch": "esbuild src/browser.ts --bundle --watch --outfile=dist/esbuild/browser.js",
-    "esbuild-node": "esbuild src/cli.ts --bundle --platform=node --minify --sourcemap=external --outfile=dist/esbuild/cli.js",
-    "esbuild-node:dev": "esbuild src/cli.ts --bundle --platform=node --sourcemap=external --outfile=dist/esbuild/cli.js",
-    "esbuild-node:watch": "esbuild src/cli.ts --bundle --platform=node --watch --sourcemap=external --outfile=dist/esbuild/cli.js"
+    "build-all": "npm run clean && npm run build && npm run esbuild-browser && npm run esbuild-browser:dev && npm run esbuild-esm && npm run esbuild-esm:dev",
+    "esbuild-browser": "esbuild src/browser.ts --bundle --minify --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.min.js",
+    "esbuild-browser:dev": "esbuild src/browser.ts --bundle --target=es6 --outfile=dist/esbuild/ca-gov-payperiods.js",
+    "esbuild-browser:watch": "esbuild src/browser.ts --bundle --watch --target=es6 --outfile=dist/esbuild/ca-gov-payperiods.js",
+    "esbuild-node": "esbuild src/cli.ts --bundle --platform=node --minify --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.cli.min.js",
+    "esbuild-node:dev": "esbuild src/cli.ts --bundle --platform=node --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.cli.js",
+    "esbuild-node:watch": "esbuild src/cli.ts --bundle --platform=node --watch --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiodscli.js",
+    "esbuild-esm": "esbuild src/main.ts --bundle --platform=neutral --minify --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.esm.min.js",
+    "esbuild-esm:dev": "esbuild src/main.ts --bundle --platform=neutral --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.esm.js",
+    "esbuild-esm:watch": "esbuild src/main.ts --bundle --platform=neutral --watch --target=es6 --sourcemap=external --outfile=dist/esbuild/ca-gov-payperiods.esm.js"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",

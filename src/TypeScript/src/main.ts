@@ -21,13 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-/**
- * California State Government Pay Period API.
- * @copyright Copyright (c) 2018-2022 California Department of Fish and Wildlife
- * @author Eric G. Miller
- * @version 3.0.0
- */
 export {PayPeriod} from './pay-period';
 export {getPayPeriod, getPayPeriods, getPayPeriodForMonth, YEAR_MAX, YEAR_MIN, MONTH_MAX, MONTH_MIN } from './pay-period-service';
 export {ical} from './pay-period-ical';
