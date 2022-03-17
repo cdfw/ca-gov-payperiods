@@ -1,3 +1,4 @@
+/*!
 MIT License
 
 Copyright (c) 2018-2022 State of California, Department of Fish and Wildlife
@@ -19,3 +20,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+export {PayPeriod} from './pay-period';
+export {getPayPeriod, getPayPeriods, getPayPeriodForMonth, YEAR_MAX, YEAR_MIN, MONTH_MAX, MONTH_MIN } from './pay-period-service';
+export {ical} from './pay-period-ical';
