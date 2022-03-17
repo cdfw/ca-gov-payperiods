@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="utf-8">
         <title>Pay Period Service Tests</title>
+        <script src="../built/pay-period-service.js"></script>
     </head>
     <body>
         <h1>Pay Period Service Tests</h1>
@@ -13,9 +13,7 @@
             <button id="btnExportYear" type="button">Download</button>
         </fieldset>
         <div id="target" style="white-space:pre-wrap;"></div>
-        <script type="module" src="../built/index.js"></script>
-        <script type="module" type="text/javascript">
-            import * as PayPeriodService from '../built/index.js';
+        <script type="text/javascript">
             addEventListener("load", 
                 function(){
                     // Export Calendar Handler

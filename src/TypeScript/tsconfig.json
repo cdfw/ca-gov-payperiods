@@ -1,18 +1,16 @@
 {
 	"compilerOptions": {
-		"composite": true,
 		"noImplicitAny": true,
 		"target": "ES2015",
 		"outDir": "built",
-		"sourceMap": false,
+		"sourceMap": true,
 		// Generate d.ts files
 		"declaration": true,
 		// This compiler run should
 		// only output d.ts files
-		"emitDeclarationOnly": false,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true
+		"emitDeclarationOnly": true
 	},
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"includes": ["src/**/*.ts", "test/**/*.ts"]
+	"files": [
+		"src/pay-period-service.ts"
+	],
 }
