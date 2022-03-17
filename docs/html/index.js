@@ -75,11 +75,11 @@ var PayPeriodHeading = {
 var PayPeriodBody = {
     view: function (vnode) {
         let payPeriod = vnode.attrs.payPeriod;
-        let mFirst = moment(payPeriod.firstDay);
-        let firstDayOfWeek = mFirst.day();// payPeriod.startDate.getDay();
+        let mFirst = moment(payPeriod.startDate);
+        let firstDayOfWeek = payPeriod.startDate.getDay();
         if (firstDayOfWeek > 0)
             mFirst.add(-firstDayOfWeek, "days");
-        let nWeeks = -mFirst.diff(payPeriod.lastDay, "weeks") + 1;
+        let nWeeks = -mFirst.diff(payPeriod.endDate, "weeks") + 1;
         let weeks = [];
         for (var i = 0; i < nWeeks; i++) {
             weeks.push({ firstDate: moment(mFirst).add(i, "week"), payPeriod: payPeriod });
@@ -117,9 +117,9 @@ var PayPeriodDay = {
         let css = "pp-day ";
         if (mDay.month() == (payPeriod.month - 1)) { css += " pp-in"; }
         else { css += " pp-out"; }
-        if (mDay.isBetween(payPeriod.firstDay, payPeriod.lastDay, 'date', '[]')) { css += " pp-month-day"; }
-        if (mDay.isSame(payPeriod.firstDay)) { css += " pp-start"; }
-        if (mDay.isSame(payPeriod.lastDay)) { css += " pp-end"; }
+        if (mDay.isBetween(payPeriod.startDate, payPeriod.endDate, 'date', '[]')) { css += " pp-month-day"; }
+        if (mDay.isSame(payPeriod.startDate)) { css += " pp-start"; }
+        if (mDay.isSame(payPeriod.endDate)) { css += " pp-end"; }
         let day = mDay.date();
         console.debug("PayPeriodDay: " + JSON.stringify({ mDay: mDay, css: css, day: day }));
         return m("td", { "class": css }, day);
