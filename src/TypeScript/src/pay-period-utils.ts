@@ -57,11 +57,9 @@ import { PayPeriod } from "./pay-period";
  * @param {string} [c=" "] - The padding character.
  * @returns {string} The left-padded result.
  */
-export function padLeft(src: any, length: number, c = " "): string {
-    let result = "";
-    if (src !== null && src !== undefined)
-        result = src.toString();
-    const _c = c.length === 1 ? c : c.length > 1 ? c[0] : " ";
+export function padLeft(src: any, length: number, c: string = " "): string {
+    var result = (src !== null && src !== undefined) ? src.toString() : "";
+    var _c = c.length === 1 ? c : c.length > 1 ? c[0] : " ";
     if (result.length < length) {
         result = _c.repeat(length - result.length) + result;
     }
