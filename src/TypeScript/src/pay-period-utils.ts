@@ -76,14 +76,3 @@ export function padLeft(src: any, length: number, c = " "): string {
 export function toISODate(date: Date): string {
     return `${date.getFullYear()}-${padLeft(date.getMonth() + 1,2,"0")}-${padLeft(date.getDate(),2,"0")}`;
 }
-
-/**
- * Format the date parts as an ISO 8601 date string.
- * @param year - The year. 
- * @param month - The month (1..12).
- * @param day - The day of the month.
- * @returns The formatted date.
- */
-export function formatDate(year: number, month: number, day: number): string {
-    return `${padLeft(year,4,"0")}-${padLeft(month,2,"0")}-${padLeft(day,2,"0")}`;
-}

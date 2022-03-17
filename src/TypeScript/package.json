@@ -22,7 +22,7 @@
     "test": "jest",
     "clean": "del /q /s dist build package",
     "ts-node": "ts-node",
-    "docs": "typedoc --entryPoints src/main.ts --name \"California State Government Pay Period API\"",
+    "docs": "typedoc --entryPoints src/main.ts",
     "build": "tsc -p tsconfig.json",
     "build-all": "npm run clean && npm run build && npm run esbuild-node && npm run esbuild-browser",
     "esbuild-browser": "esbuild src/browser.ts --bundle --minify --sourcemap=external --outfile=dist/esbuild/browser.js",
