@@ -1,6 +1,6 @@
 {
   "name": "pay-period-service",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "An API for California State Government Pay Periods.",
   "author": "Eric G. Miller",
   "repository": "https://github.com/cdfw/ca-gov-payperiods",
