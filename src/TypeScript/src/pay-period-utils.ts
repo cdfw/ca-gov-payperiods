@@ -1,7 +1,7 @@
 /*!
 MIT License
 
-Copyright (c) 2018-2022 State of California, Department of Fish and Wildlife
+Copyright (c) 2018-2026 State of California, Department of Fish and Wildlife
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,12 +45,12 @@ import { PayPeriod } from "./pay-period";
 
 /**
  * Left-pad some value as a string with a minimum length.
- * @param {any} src - The value to left pad. It will be converted to a string, if necessary.
+ * @param {unknown} src - The value to left pad. It will be converted to a string, if necessary.
  * @param {number} length - The minimum length of the resulting string.
  * @param {string} [c=" "] - The padding character.
  * @returns {string} The left-padded result.
  */
-export function padLeft(src: any, length: number, c = " "): string {
+export function padLeft(src: unknown, length: number, c = " "): string {
     let result = "";
     if (src !== null && src !== undefined)
         result = src.toString();
