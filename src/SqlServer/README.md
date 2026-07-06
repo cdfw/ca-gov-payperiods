@@ -4,6 +4,19 @@ This is a SQL Server implementation of the CA GOV Pay Periods.
 
 ## Tables
 
+### PayPeriod
+
+This table contains all of the precomputed pay periods between 1994 and 2299, inclusive.
+It has the same columns as the function `dbo.GetPayPeriods(@year, @month)`. See
+`dbo.PayPeriod.Data.sql` for the script to populate the table.
+
+* Year (int, PK) - The calendar year.
+* Month (int, PK) - The calendar month.
+* StartDate (date) - The first day of the pay period.
+* EndDate (date) - The last day of the pay period.
+* WorkDays (int) - The number of week days in the pay period (21 or 22).
+* WorkHours (int) - The number of hours in the pay period (168 or 176).
+
 ### PayPeriodCalendar
 
 This table contains the fourteen pay period calendar patterns. Each pattern has a record for each month of the year.
@@ -29,10 +42,11 @@ This table contains the repeating sequence of PayPeriodCalendars with *IndexValu
 
 This table-valued function returns either all of the pay-periods for a year, or the specific pay-period for a month. The first argument, @year, is the year (1994-2299). The second argument, @month, is the month (1-12) and may be null to return all of the relevant info for the year.
 
-
+```sql
 	declare @year int = 2018;
 	declare @month int = 10;
 	select * from GetPayPeriods(@year, @month);
+```
 
 	+---------------------------------------------------------------+
 	| Year | Month | StartDate  |   EndDate  | WorkDays | WorkHours |
@@ -44,8 +58,10 @@ This table-valued function returns either all of the pay-periods for a year, or 
 
 This table-valued function returns at most one record for a specific date. It returns the Pay Period data for the pay-period that includes the specified @date argument.  
 
+```sql
 	declare @date date = '2018-08-31';
 	select * from [dbo].[GetPayPeriodForDate] (@date);
+```
 
 	+---------------------------------------------------------------+
 	| Year | Month | StartDate  |   EndDate  | WorkDays | WorkHours |
